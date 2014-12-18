@@ -1,0 +1,54 @@
+{% extends "AcmeBookerBundle::layout.html.twig" %}
+
+{% block title "Simple Booker app" %}
+
+{% block content_header '' %}
+
+{% block content %}
+	<h1 class="bkr_title">Simple Booker app</h1>
+	<div class="bkr_date">
+		<div class="bkr_cal"><img src="{{ asset('bundles/acmebooker/images/icon_cal.png') }}"/></div>
+		<input type="text" class="inp_date" id="datepicker" value="{{date}}"/>
+	</div>
+	<div class="spacer"></div>
+	<table id="bkr_table">
+		<tr>
+			<th>Room&nbsp;<a href="#" id="sort_rooms">&#9660;</a></th>
+			<th>8:00-9:00</th>
+			<th>9:00-10:00</th>
+			<th>10:00-11:00</th>
+			<th>11:00-12:00</th>
+			<th>12:00-13:00</th>
+			<th>13:00-14:00</th>
+			<th>14:00-15:00</th>
+			<th>15:00-16:00</th>
+			<th>16:00-17:00</th>
+			<th>17:00-18:00</th>
+			<th>18:00-19:00</th>
+			<th>19:00-20:00</th>
+		</tr>
+		{% for key,value in rooms %}
+			<tr class="bkr_td" id="bkr_td{{ key }}">
+				<td>Room #{{ key }}0</td>
+				{% for key2,tm in value %}
+					<td>
+					{% if tm.user %}
+						user{{tm.user}}
+					{% else %}
+						<a href="#" class="bkr_time inpt_txt"></a>
+					{% endif %}
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+		
+	</table>
+	<div class="bkr_auth">
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			logged in as <strong>{{ app.user ? app.user.username : 'Anonymous' }}</strong> - <a href="{{ path('_booker_logout') }}">Logout</a>
+		{% else %}
+			<a href="{{ path('_booker_login') }}">Login</a>
+		{% endif %}
+	</div>
+	<div class="spacer"></div>
+{% endblock %}

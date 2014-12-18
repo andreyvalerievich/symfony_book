@@ -1,0 +1,14 @@
+{% extends "AcmeBookerBundle::layout.html.twig" %}
+
+{% block title "Simple Booker app" %}
+
+{% block content_header '' %}
+
+{% block message %}
+	<div class="add_bkr_fon"></div>
+	<div class="add_bkr_mes">
+		<a href="{{ path('_booker') }}" class="bkr_mess_close">x</a>
+		{{ msg }}
+		<a href="{{ path('_booker') }}" class="add_mes_btn">ok</a>
+	</div>
+{% endblock %}

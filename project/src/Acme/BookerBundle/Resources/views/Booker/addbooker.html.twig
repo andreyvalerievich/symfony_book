@@ -1,0 +1,20 @@
+{% extends "AcmeBookerBundle::layout.html.twig" %}
+
+{% block title "Simple Booker app" %}
+
+{% block content_header '' %}
+
+{#% block content %}
+{% endblock %#}
+{% block message %}
+	<div class="add_bkr_fon"></div>
+	<div class="add_bkr_mes">
+		<h3><b>Booking {{ date }}</b></h3>
+		<div>Do you really want to book room #{{room}}0 for {{time}}:00-{{time+1}}:00?</div>
+		<div>
+			<a href="{{ path('_booker') }}" class="add_mes_btn_n">No</a>&nbsp;
+			<a href="{{ path('_addbooker', {'room': room, 'time': time, 'user': user, 'date' : date}) }}" class="add_mes_btn_y">Yes</a>
+		</div>
+		<div class="spacer"></div>
+	</div>
+{% endblock %}

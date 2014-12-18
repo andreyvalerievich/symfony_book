@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Booker Bundle{% endblock %}</title>
+        <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/acmebooker/css/booker.css') }}" />
+		<script type="text/javascript" src="{{ asset('bundles/acmebooker/js/jquery-1.11.1.min.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('bundles/acmebooker/js/main.js') }}"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    </head>
+    <body>
+        <div id="symfony-wrapper">
+
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="flash-message">
+                    <em>Notice</em>: {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            {% block content_header %}
+                <ul id="menu">
+                    {% block content_header_more %}
+                        <li><a href="{{ path('_booker') }}">Booker Home</a></li>
+                    {% endblock %}
+                </ul>
+
+                <div style="clear: both"></div>
+            {% endblock %}
+
+            <div class="symfony-content">
+                {% block content %}
+					<h1 class="bkr_title">Simple Booker app</h1>
+					<div class="bkr_date">
+						<div class="bkr_cal"><img src="{{ asset('bundles/acmebooker/images/icon_cal.png') }}"/></div>
+						<input type="text" class="inp_date" id="datepicker" value="{{date}}"/>
+					</div>
+					<div class="spacer"></div>
+					<table id="bkr_table">
+						<tr>
+							<th>Room&nbsp;<a href="#" id="sort_rooms">&#9660;</a></th>
+							<th>8:00-9:00</th>
+							<th>9:00-10:00</th>
+							<th>10:00-11:00</th>
+							<th>11:00-12:00</th>
+							<th>12:00-13:00</th>
+							<th>13:00-14:00</th>
+							<th>14:00-15:00</th>
+							<th>15:00-16:00</th>
+							<th>16:00-17:00</th>
+							<th>17:00-18:00</th>
+							<th>18:00-19:00</th>
+							<th>19:00-20:00</th>
+						</tr>
+						{% for key,value in rooms %}
+							<tr class="bkr_td" id="bkr_td{{ key }}">
+								<td>Room #{{ key }}0</td>
+								{% for key2,tm in value %}
+									<td>
+									{% if tm.user %}
+										{% if tm.user=="not_empty" %}
+											<a class="bkr_time inpt_txt_no" href="{{ path('_message', {'room': key, 'time': key2, 'user': user, 'room_next': 'true', 'date': ''}) }}"></a>
+										{% else %}
+											<a class="bkr_time a_txt" href="{{ path('_message', {'room': key, 'time': key2, 'user': tm.user, 'id': tm.id, 'date': ''}) }}">user{{tm.user}}</a>
+										{% endif %}
+									{% else %}
+										<a class="bkr_time inpt_txt" href="{{ path('_addmessage', {'room': key, 'time': key2, 'user': user, 'date' : ''}) }}"></a>
+									{% endif %}
+									</td>
+								{% endfor %}
+							</tr>
+						{% endfor %}
+						
+					</table>
+					<div class="bkr_auth">
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							logged in as <strong>{{ app.user ? app.user.username : 'Anonymous' }}</strong> - <a href="{{ path('_booker_logout') }}">Logout</a>
+						{% else %}
+							<a href="{{ path('_booker_login') }}">Login</a>
+						{% endif %}
+					</div>
+					<div class="spacer"></div>
+                {% endblock %}
+				{% block message %}
+				{% endblock %}
+            </div>
+
+            {% if code is defined %}
+                <h2>Code behind this page</h2>
+                <div class="symfony-content">{{ code|raw }}</div>
+            {% endif %}
+        </div>
+    </body>
+</html>

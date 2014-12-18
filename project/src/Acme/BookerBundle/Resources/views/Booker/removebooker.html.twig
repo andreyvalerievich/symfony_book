@@ -1,0 +1,20 @@
+{% extends "AcmeBookerBundle::layout.html.twig" %}
+
+{% block title "Simple Booker app" %}
+
+{% block content_header '' %}
+
+{#% block content %}
+{% endblock %#}
+{% block message %}
+	<div class="add_bkr_fon"></div>
+	<div class="add_bkr_mes">
+		<h3><b>Booking</b></h3>
+		<div>Do you really want to remove this booking?</div>
+		<div>
+			<a href="{{ path('_booker') }}" class="add_mes_btn_n">No</a>&nbsp;
+			<a href="{{ path('_removebooker', {'user': user, 'id' : id}) }}" class="add_mes_btn_y">Yes</a>
+		</div>
+		<div class="spacer"></div>
+	</div>
+{% endblock %}
